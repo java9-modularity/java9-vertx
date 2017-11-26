@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.gradle.java.experimental-jigsaw' version '0.1.1'
+}
+
+dependencies {
+    compile 'io.vertx:vertx-rx-java2:3.5.0'
+    compile project(':easytext.pagefetch')
+    compile project(':easytext.vertx')
+    compile project(':easytext.algorithm.api')
+
+    runtime project(':easytext.algorithm.coleman')
+    runtime project(':easytext.algorithm.kincaid')
+    runtime project(':easytext.algorithm.naivesyllablecounter')
+
+}
+
+javaModule.name = 'easytext.web'
+mainClassName = "javamodularity.easytext.web.Main"
