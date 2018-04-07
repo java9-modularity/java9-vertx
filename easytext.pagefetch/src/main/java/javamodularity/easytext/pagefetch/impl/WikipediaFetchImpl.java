@@ -10,17 +10,16 @@ import java.util.ServiceLoader;
 
 public class WikipediaFetchImpl implements WikipediaFetcher {
 
-    private final Vertx vertx;
     private final WebClient client;
 
     public WikipediaFetchImpl() {
-        vertx = ServiceLoader.load(Vertx.class).findFirst().get();
+        var vertx = ServiceLoader.load(Vertx.class).findFirst().get();
         client = WebClient.create(vertx);
     }
 
     @Override
     public Single<String> getText(String topic) {
-        String url = "https://en.wikipedia.org/w/index.php?action=raw&title=" + topic;
+        var url = "https://en.wikipedia.org/w/index.php?action=raw&title=" + topic;
 
         return client.getAbs(url).rxSend()
             .map(HttpResponse::bodyAsString);

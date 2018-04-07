@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    compile 'io.vertx:vertx-rx-java2:3.5.0'
+    compile 'io.vertx:vertx-rx-java2:3.5.1'
 }

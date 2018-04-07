@@ -6,10 +6,10 @@ import java.util.List;
 public class Preprocessing {
 
    public static List<List<String>> toSentences(String text) {
-      String removedBreaks = text.replaceAll("\\r?\\n", " ");
+      var removedBreaks = text.replaceAll("\\r?\\n", " ");
       ArrayList<List<String>> sentences = new ArrayList<>();
-      for(String rawSentence: removedBreaks.split("[\\.\\?\\!]")) {
-         List<String> words = toWords(rawSentence);
+      for(var rawSentence: removedBreaks.split("[\\.\\?\\!]")) {
+         var words = toWords(rawSentence);
          if(words.size() > 0) {
             sentences.add(words);
          }
@@ -18,11 +18,11 @@ public class Preprocessing {
       return sentences;
    }
    
-   public static List<String> toWords(String sentence) {
-      String[] rawWords = sentence.split("\\s+");
+   private static List<String> toWords(String sentence) {
+      var rawWords = sentence.split("\\s+");
       List<String> words = new ArrayList<>();
-      for(String rawWord: rawWords) {
-         String word = rawWord.replaceAll("\\W", "");
+      for(var rawWord: rawWords) {
+         var word = rawWord.replaceAll("\\W", "");
          if(word.length() > 0) {
             words.add(word);
          }

@@ -4,8 +4,6 @@ package javamodularity.easytext.web;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.vertx.reactivex.core.Vertx;
-import io.vertx.reactivex.core.http.HttpServer;
-import io.vertx.reactivex.core.http.HttpServerResponse;
 import javamodularity.easytext.algorithm.api.Analyzer;
 import javamodularity.easytext.algorithm.api.Preprocessing;
 import javamodularity.easytext.pagefetch.WikipediaFetcher;
@@ -15,17 +13,17 @@ import java.util.ServiceLoader;
 public class Main {
     public static void main(String[] args) {
 
-        WikipediaFetcher wikipediaFetcher = ServiceLoader.load(WikipediaFetcher.class).findFirst().get();
+        var wikipediaFetcher = ServiceLoader.load(WikipediaFetcher.class).findFirst().get();
 
-        ServiceLoader<Analyzer> analyzers = ServiceLoader.load(Analyzer.class);
+        var analyzers = ServiceLoader.load(Analyzer.class);
 
-        Vertx vertx = ServiceLoader.load(Vertx.class).findFirst().get();
-        HttpServer server = vertx.createHttpServer();
+        var vertx = ServiceLoader.load(Vertx.class).findFirst().get();
+        var server = vertx.createHttpServer();
 
         server.requestHandler(request -> {
-            HttpServerResponse response = request.response();
+            var response = request.response();
 
-            String topic = request.getParam("topic");
+            var topic = request.getParam("topic");
 
             if (topic == null) {
                 request.response().setStatusCode(400).end("No topic set");
@@ -39,7 +37,7 @@ public class Main {
                 wikipediaFetcher.getText(topic).subscribeOn(Schedulers.computation()).toObservable()
                         .map(Preprocessing::toSentences)
                         .flatMap(text -> Observable.fromIterable(analyzers).flatMap(a -> Observable.create(observer -> {
-                            String result = a.getName() + ": " + a.analyze(text);
+                            var result = a.getName() + ": " + a.analyze(text);
                             observer.onNext(result);
                         }).subscribeOn(Schedulers.computation())))
                         .subscribe(text -> {
@@ -54,8 +52,6 @@ public class Main {
 
         });
 
-        server.listen(8080, result -> {
-            System.out.println("Server listening: " + result.succeeded());
-        });
+        server.listen(8080, result -> System.out.println("Server listening: " + result.succeeded()));
     }
 }

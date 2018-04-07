@@ -6,10 +6,10 @@ public class NaiveSyllableCounter implements SyllableCounter {
    
    @Override
    public int countSyllables(String word) {
-      int syllables = 0;
-      boolean prevNonVowel = false;
-      for(int i = 0; i < word.length(); i++) {
-         boolean isVowel = isVowel(word.toLowerCase().charAt(i));
+       var syllables = 0;
+       var prevNonVowel = false;
+      for(var i = 0; i < word.length(); i++) {
+          var isVowel = isVowel(word.toLowerCase().charAt(i));
          if(prevNonVowel && isVowel && i != word.length() - 1) {
             syllables++;
          }

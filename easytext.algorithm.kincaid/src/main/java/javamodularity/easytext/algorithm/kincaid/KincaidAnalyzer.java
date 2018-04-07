@@ -12,7 +12,7 @@ public class KincaidAnalyzer implements Analyzer {
    private SyllableCounter syllableCounter;
 
    public KincaidAnalyzer() {
-      Iterator<SyllableCounter> counters = ServiceLoader.load(SyllableCounter.class).iterator();
+      var counters = ServiceLoader.load(SyllableCounter.class).iterator();
       if(counters.hasNext()) {
          this.syllableCounter =  counters.next();
       } else {
@@ -26,7 +26,7 @@ public class KincaidAnalyzer implements Analyzer {
 
    public double analyze(List<List<String>> sentences) {
       float totalsentences = sentences.size();
-      float totalwords = sentences.stream().mapToInt(sentence -> sentence.size()).sum();
+      float totalwords = sentences.stream().mapToInt(List::size).sum();
       float totalsyllables = sentences.stream()
          .flatMapToInt(sentence ->
             sentence.stream().mapToInt(word -> syllableCounter.countSyllables(word)))

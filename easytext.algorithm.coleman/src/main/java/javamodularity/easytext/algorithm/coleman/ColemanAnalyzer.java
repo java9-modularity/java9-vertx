@@ -13,8 +13,8 @@ public class ColemanAnalyzer implements Analyzer {
 
    public double analyze(List<List<String>> sentences) {
       float totalsentences = sentences.size();
-      float words = sentences.stream().mapToInt(sentence -> sentence.size()).sum();
-      float letters = sentences.stream().flatMapToInt(sentence -> sentence.stream().mapToInt(word -> word.length())).sum();
+      float words = sentences.stream().mapToInt(List::size).sum();
+      float letters = sentences.stream().flatMapToInt(sentence -> sentence.stream().mapToInt(String::length)).sum();
       try {
          TimeUnit.SECONDS.sleep(1);
       } catch (InterruptedException e) {
